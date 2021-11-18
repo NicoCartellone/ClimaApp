@@ -10,7 +10,7 @@ const Clima = ({ resultado }) => {
     // grados kelvin
     const kelvin = 273.15;
 
-    console.log(resultado)
+    //console.log(resultado)
     return (
         <View style={styles.clima}>
             <Text style={[styles.texto, styles.actual]}>

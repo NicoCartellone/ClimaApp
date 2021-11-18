@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
-import { StyleSheet, Text, View, StatusBar, FlatList } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, FlatList, TouchableHighlight } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, resultado }) => {
 
     //Defino el estate de las ciudades:
     const [ciudades, setCiudades] = useState([
@@ -11,6 +11,15 @@ const Home = ({ navigation }) => {
         { id:'2', ciudad: "Mendoza", temperatura: "20"},
         { id:'3', ciudad: "Santiago del Estero", temperatura: "20"},
     ])
+
+    //Elimina las ciudades del state
+    const eliminarCiudad = id => {
+    setCiudades( (ciudadesActuales) => {
+        return ciudadesActuales.filter( ciudad => ciudad.id !== id);
+        })
+    }
+
+    console.log(resultado)
 
     return (
         <View style={styles.container}>
@@ -29,8 +38,14 @@ const Home = ({ navigation }) => {
                     data={ciudades}
                     renderItem={ ({item}) => (
                     <View style={styles.elementos}>
-                        <Text style={styles.textoElementos}>{item.ciudad}  </Text>
-                    </View>   
+                        <Text style={styles.textoElementos}>{item.ciudad} </Text>
+                        <TouchableHighlight onPress={() => eliminarCiudad(item.id)}>
+                            <Text style={styles.btnEliminar}>       Eliminar &times; </Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight>
+                            <Text style={styles.btnDetalles}> Detalles + </Text>
+                        </TouchableHighlight>
+                    </View>
                     )}
                     keyExtractor= {ciudades => ciudades.id}
                 />
@@ -63,15 +78,27 @@ const styles = StyleSheet.create({
     },
     elementos: {
         backgroundColor: 'white',
-        height: 50,
+        height: 40,
         marginTop: 30,
-        width: 300,
+        width: 350,
         marginHorizontal: 30,
         borderRadius:20,
         justifyContent: 'center',
+        flexDirection: 'row',
     },
     textoElementos: {
         textAlign: 'center',
         fontWeight: 'bold',
-    }
+        marginTop: 10,
+    },
+    btnEliminar: {
+        color: 'red',
+        fontWeight: 'bold',
+        marginTop: 10,
+    },
+    btnDetalles: {
+        color: 'blue',
+        fontWeight: 'bold',
+        marginTop: 10,
+    } 
 });
