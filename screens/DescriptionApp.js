@@ -1,6 +1,8 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image, } from 'react-native'
 import Logo from '../assets/logo.png'
+import Onboarding from '../components/Onboarding'
+
 const DescriptionApp = ({ navigation }) => {
     return (
         <View style={styles.container}>
@@ -14,6 +16,7 @@ const DescriptionApp = ({ navigation }) => {
                 <Text style={styles.textoLogo}>Clima App</Text>
             </View>
             <View style={styles.descriptionContainer}>
+                <Onboarding />
                 <TouchableOpacity
                     style={styles.btn}
                     activeOpacity={0.8}
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
     descriptionContainer: {
         backgroundColor: "#EDF2F4",
         width: 412,
-        height: 430,
+        height: 500,
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
     },
@@ -53,10 +56,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,
-        width: 150,
-        height: 40,
+        width: 100,
+        height: 30,
         bottom: 40,
-        left: 130
+        // left: 130
+        top: 388,
+        right: 30
 
     },
     img: {
@@ -75,4 +80,4 @@ const styles = StyleSheet.create({
         bottom: 10,
         fontSize: 25
     },
-});
+})
