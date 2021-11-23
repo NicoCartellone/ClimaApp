@@ -1,38 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const Home = ({ route }) => {
+const Home = ({ navigation }) => {
 
-    const ciudad = route.params
-    console.log(ciudad)
-    // const [ciudadStorage, guardarCiudadStorage] = useState('');
-    // // console.log('datos desde home:', route.params)
+    const [ciudad, setciudad] = useState('')
 
-    // useEffect(() => {
-    //     const guardarDatos = async () => {
-    //         try {
-    //             await AsyncStorage.setItem('ciudad', ciudad)
-    //         } catch (error) {
-    //             AsyncStorage.removeItem('ciudad')
-    //             console.log(error)
-    //         }
-    //     }
-    //     const obtenerDatos = async () => {
-    //         try {
-    //             const storageCiudad = await AsyncStorage.getItem('ciudad')
-    //             guardarCiudadStorage(storageCiudad)
-    //             console.log(storageCiudad)
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }
-    //     guardarDatos();
-    //     obtenerDatos();
-    // }, [])
+    useEffect(() => {
+        obtenerDatosStorage();
+    })
 
-
+    const obtenerDatosStorage = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('ciudad')
+            if (jsonValue && JSON.parse(jsonValue) != ciudad) {
+                setciudad(JSON.parse(jsonValue))
+            }
+            console.log(jsonValue, await AsyncStorage.getAllKeys())
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <View style={styles.container}>
             <StatusBar
@@ -42,6 +31,12 @@ const Home = ({ route }) => {
             />
             <Text>{ciudad}</Text>
             <Text style={styles.texto}>hola</Text>
+
+            <TouchableOpacity
+                onPress={() => navigation.navigate('Details')}
+            >
+                <Text>Detalles</Text>
+            </TouchableOpacity>
         </View>
     )
 }

@@ -29,7 +29,7 @@ const Search = ({ navigation }) => {
                     guardarConsultar(false);
 
                     //modifica los colores de fondo basados en la temperatura
-
+                    console.log('valor de ciudad:', ciudad)
                     const kelvin = 273.15;
                     const { main } = resultado;
                     const actual = main.temp - kelvin;
@@ -54,7 +54,16 @@ const Search = ({ navigation }) => {
 
     const guardarDatos = async () => {
         try {
-            await AsyncStorage.setItem('ciudad', ciudad)
+            const jsonValue = JSON.stringify(ciudad)
+            // if ((jsonValue !== null || jsonValue !== undefined) && jsonValue.length > 0) {
+            //     await AsyncStorage.setItem('ciudad', jsonValue)
+            //     console.log('Guardar item', jsonValue)
+            //     guardarCiudaStorage(ciudad)
+            // }
+            if (ciudad != '') {
+                await AsyncStorage.setItem('ciudad', jsonValue)
+                guardarCiudaStorage(ciudad)
+            }
         } catch (error) {
             console.log(error)
         }
@@ -62,9 +71,11 @@ const Search = ({ navigation }) => {
 
     const obtenerDatosStorage = async () => {
         try {
-            const ciudad = await AsyncStorage.getItem('ciudad')
-            guardarCiudaStorage(ciudad)
-            console.log('datos desde search:', ciudad)
+            const jsonValue = await AsyncStorage.getItem('ciudad')
+            if (jsonValue !== null || jsonValue !== undefined) {
+                guardarCiudaStorage(JSON.parse(jsonValue))
+            }
+            console.log(jsonValue, await AsyncStorage.getAllKeys())
         } catch (error) {
             console.log(error)
         }
@@ -100,7 +111,7 @@ const Search = ({ navigation }) => {
                             guardarConsultar={guardarConsultar}
                         />
                         <TouchableOpacity
-                            onPress={() => { obtenerDatosStorage(), navigation.jumpTo('MainTab', ciudadStorage) }}
+                            onPress={() => navigation.jumpTo('MainTab', ciudadStorage)}
                         >
                             <Text>Guardar Ciudad</Text>
                         </TouchableOpacity>

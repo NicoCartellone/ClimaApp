@@ -11,7 +11,7 @@ export default function App() {
   useEffect(() => {
     Animated.timing(rotate, {
       toValue: 1080,
-      duration: 3000,
+      duration: 3500,
       useNativeDriver: false,
     }).start(() => setanimated(true))
   }, []);

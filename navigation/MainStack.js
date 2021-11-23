@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DescriptionApp from '../screens/DescriptionApp'
 import MainTab from './MainTab'
+import Details from '../screens/Details'
 
 
 const Stack = createNativeStackNavigator()
@@ -23,6 +24,10 @@ const MainStack = () => {
                 <Stack.Screen
                     name='Home'
                     component={MainTab}
+                />
+                <Stack.Screen
+                    name='Details'
+                    component={Details}
                 />
             </Stack.Navigator>
         </NavigationContainer>

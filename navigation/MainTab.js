@@ -13,7 +13,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MainTab = ({ navigate }) => {
     return (
         <Tab.Navigator
-            initialRouteName="Searh"
+            initialRouteName="MainTab"
             activeColor="#51608F"
             inactiveColor="#5B5A5A"
             barStyle={{
