@@ -3,9 +3,10 @@ import { NavigationContainer } from '@react-navigation/native'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DescriptionApp from '../screens/DescriptionApp'
-import MainTab from './MainTab'
 import Details from '../screens/Details'
-
+import Form from '../screens/Form'
+import MainTab from '../navigation/MainTab'
+import ScreenSplash from '../screens/ScreenSplash'
 
 const Stack = createNativeStackNavigator()
 
@@ -18,6 +19,10 @@ const MainStack = () => {
                 }}
             >
                 <Stack.Screen
+                    name='ScreenSplash'
+                    component={ScreenSplash}
+                />
+                <Stack.Screen
                     name='DescriptionApp'
                     component={DescriptionApp}
                 />
@@ -28,6 +33,10 @@ const MainStack = () => {
                 <Stack.Screen
                     name='Details'
                     component={Details}
+                />
+                <Stack.Screen
+                    name='Form'
+                    component={Form}
                 />
             </Stack.Navigator>
         </NavigationContainer>

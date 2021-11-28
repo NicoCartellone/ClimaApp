@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, StatusBar, Image, } from 'react-native'
+import { View, Text, StyleSheet, StatusBar, Image, Dimensions } from 'react-native'
 import AppIntroSlider from 'react-native-app-intro-slider'
 import slides from '../slides'
 import MainTab from '../navigation/MainTab'
+import LottieView from 'lottie-react-native'
+import Container from '../components/Container'
 
 const DescriptionApp = () => {
+    const size = Dimensions.get('window').width * 0.5
 
     const [showRealApp, setShowRealApp] = useState(false)
 
@@ -18,23 +21,28 @@ const DescriptionApp = () => {
 
     const renderItem = ({ item }) => {
         return (
-            <View style={styles.Onboarding}>
+            <Container>
                 <StatusBar
                     animated={true}
-                    backgroundColor="#51608F"
+                    backgroundColor="#192f6a"
                     barStyle="light-content"
                 />
-                <Text style={styles.introTitle}>
-                    {item.title}
-                </Text>
-                <Image
-                    style={styles.introImage}
-                    source={item.image}
-                />
-                <Text style={styles.introDescrition}>
-                    {item.description}
-                </Text>
-            </View>
+
+                <View style={styles.containerDescription}>
+                    <Text style={styles.introTitle}>
+                        {item.title}
+                    </Text>
+                    <LottieView
+                        style={{ width: size + 50, height: size + 50, bottom: 12, right: 10 }}
+                        autoPlay
+                        resizeMode="contain"
+                        source={item.image}
+                    />
+                    <Text style={styles.introDescrition}>
+                        {item.description}
+                    </Text>
+                </View>
+            </Container>
         )
     }
 
@@ -76,13 +84,6 @@ const DescriptionApp = () => {
 export default DescriptionApp
 
 const styles = StyleSheet.create({
-    Onboarding: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "space-around",
-        paddingBottom: 100,
-        backgroundColor: "#51608F"
-    },
     introImage: {
         width: 200,
         height: 200
@@ -97,8 +98,10 @@ const styles = StyleSheet.create({
     introTitle: {
         fontSize: 25,
         color: "white",
-        textAlign: "center",
-        marginBottom: 16,
         fontWeight: "bold"
+    },
+    containerDescription: {
+        alignItems: "center",
+        marginBottom: 70
     }
 })

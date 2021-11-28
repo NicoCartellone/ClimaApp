@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text } from 'react-native'
 import Formulario from '../components/Formulario';
 import Clima from '../components/Clima';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Search = ({ navigation }) => {
@@ -13,7 +12,6 @@ const Search = ({ navigation }) => {
     const [consultar, guardarConsultar] = useState(false);
     const [resultado, guardarResultado] = useState({});
     const [bgcolor, guardarBgcolor] = useState('#51608F');
-    const [ciudadStorage, guardarCiudaStorage] = useState('');
     const { ciudad, pais } = busqueda;
 
     useEffect(() => {
@@ -27,7 +25,7 @@ const Search = ({ navigation }) => {
                     const resultado = await respuesta.json();
                     guardarResultado(resultado);
                     guardarConsultar(false);
-
+                    console.log(`resultado`, resultado)
                     //modifica los colores de fondo basados en la temperatura
                     console.log('valor de ciudad:', ciudad)
                     const kelvin = 273.15;
@@ -48,38 +46,7 @@ const Search = ({ navigation }) => {
             }
         }
         consultarClima();
-        guardarDatos();
-        obtenerDatosStorage();
     }, [consultar]);
-
-    const guardarDatos = async () => {
-        try {
-            const jsonValue = JSON.stringify(ciudad)
-            // if ((jsonValue !== null || jsonValue !== undefined) && jsonValue.length > 0) {
-            //     await AsyncStorage.setItem('ciudad', jsonValue)
-            //     console.log('Guardar item', jsonValue)
-            //     guardarCiudaStorage(ciudad)
-            // }
-            if (ciudad != '') {
-                await AsyncStorage.setItem('ciudad', jsonValue)
-                guardarCiudaStorage(ciudad)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const obtenerDatosStorage = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('ciudad')
-            if (jsonValue !== null || jsonValue !== undefined) {
-                guardarCiudaStorage(JSON.parse(jsonValue))
-            }
-            console.log(jsonValue, await AsyncStorage.getAllKeys())
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     const mostrarAlerta = () => {
         Alert.alert(
@@ -110,17 +77,9 @@ const Search = ({ navigation }) => {
                             guardarBusqueda={guardarBusqueda}
                             guardarConsultar={guardarConsultar}
                         />
-                        <TouchableOpacity
-                            onPress={() => navigation.jumpTo('MainTab', ciudadStorage)}
-                        >
-                            <Text>Guardar Ciudad</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
-            <TouchableOpacity>
-                <Text>Ir al home</Text>
-            </TouchableOpacity>
         </>
     );
 }

@@ -86,17 +86,6 @@ const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation })
                         <Text style={styles.textoBuscar}>Buscar clima</Text>
                     </Animated.View>
                 </TouchableWithoutFeedback>
-                {/* <View>
-                    <TouchableOpacity
-                        onPressIn={() => animacionEntrada()}
-                        onPressOut={() => animacionSalida()}
-                        onPress={() => navigation.jumpTo('Home')}
-                    >
-                        <Animated.View style={[styles.btnBuscar, estiloAnimacion]}>
-                            <Text style={styles.textoBuscar}>Guardar Ciudad</Text>
-                        </Animated.View>
-                    </TouchableOpacity>
-                </View> */}
             </View>
         </>
     )
