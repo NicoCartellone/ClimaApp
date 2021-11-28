@@ -42,3 +42,10 @@ Dentro de los detalles se encuentran los datos del clima de la ciudad correspond
 BUSCAR: Esta pantalla nos permite realizar una consulta aislada del clima de una ciudad que no se encuentra en el listado. Presionando sobre el ícono de la lupa (Buscar) que figura en las Tabs se selecciona el país y se escribe la ciudad  de interés, luego oprimiendo el botón ‘BUSCAR CLIMA’ se podrán ver los detalles.
 
 NOSOTROS: Esta pantalla contiene una breve descripción, las herramientas utilizadas y quiénes son los desarrolladores que diseñaron la App. Para acceder a ella se debe presionar sobre el ícono “i” (Nosotros) que figura en las Tabs.
+
+PERSONA CANVA
+
+Se adjunta persona canva solicitado
+
+[Persona_canva.pdf](https://github.com/NicoCartellone/ClimaApp/files/7614338/Persona_canva.pdf)
+
