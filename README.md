@@ -47,5 +47,5 @@ PERSONA CANVA
 
 Se adjunta persona canva solicitado
 
-[Persona_canva.pdf](https://github.com/NicoCartellone/ClimaApp/files/7614338/Persona_canva.pdf)
+[Persona Canvas.pdf](https://github.com/NicoCartellone/ClimaApp/files/7614339/Persona.Canvas.pdf)
 
