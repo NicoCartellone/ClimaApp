@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image, Linking } from 'react-native'
-
+import React from 'react'
+import { StyleSheet, View, Text, ScrollView, Image, Linking } from 'react-native'
+import Container from '../components/Container'
 
 const About = ({ navigation }) => {
 
 
     return (
-        <View style={styles.container}>
+        <Container>
             <ScrollView>
                 <View style={styles.contenido}>
                     <Text style={styles.titulo}>Acerca de nosotros:</Text>
@@ -109,7 +109,7 @@ const About = ({ navigation }) => {
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </Container>
     )
 }
 
@@ -119,21 +119,24 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#51608F",
+        marginBottom: '6%',
 
     },
     contenido: {
         flex: 1,
         backgroundColor: "#fff",
-        marginVertical: '10%',
+        marginTop: '5%',
+        marginBottom: "15%",
         marginHorizontal: '5%',
-        borderRadius: 10
+        borderRadius: 10,
+        paddingVertical: '3%'
     },
     perfil: {
         width: 100,
         height: 100,
-        marginVertical: 20,
+        marginVertical: '5%',
         borderRadius: 100,
-        marginHorizontal: "25%"
+        marginHorizontal: "35%"
 
     },
     nombre: {
@@ -142,17 +145,18 @@ const styles = StyleSheet.create({
         color: 'black',
         fontStyle: 'italic',
         fontWeight: 'bold',
-        marginHorizontal: 20
+        marginHorizontal: '5%'
     },
     descrip: {
-        textAlign: 'center',
+        textAlign: 'justify',
         fontSize: 15,
+        marginHorizontal: '5%'
     },
     texto: {
         textAlign: 'justify',
         marginTop: 5,
         fontSize: 15,
-        marginHorizontal: 20
+        marginHorizontal: '5%'
 
     },
     titulo: {

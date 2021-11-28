@@ -8,6 +8,8 @@ import Form from '../screens/Form'
 import MainTab from '../navigation/MainTab'
 import ScreenSplash from '../screens/ScreenSplash'
 
+//Esta pantalla corresponde al stack navigation
+
 const Stack = createNativeStackNavigator()
 
 const MainStack = () => {

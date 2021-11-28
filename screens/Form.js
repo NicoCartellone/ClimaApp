@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import React, { useState } from 'react'
+import { Text, StyleSheet, TouchableOpacity, TextInput, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Picker } from '@react-native-picker/picker';
 import { Formik } from 'formik';
@@ -9,22 +9,23 @@ import shortid from 'shortid';
 import Container from '../components/Container';
 
 const formularioScheme = Yup.object().shape({
+    //Schema validacion de datos del formulario
     ciudad: Yup.string()
         .min(3, 'Minino 3 caracteres')
-        .max(30, 'Maximo de caracteres superado')
+        .max(20, 'Maximo de caracteres superado')
         .trim('No debe contener espacio al inicio y final')
         .required('Campo obligatorio'),
     pais: Yup.string()
         .required('Campo obligatorio')
 });
-
+//Variable utilizada para actualizar el estado donde se almacenan los datos 
 var i = 1;
 
 const Form = ({ navigation }) => {
-    const [guardarStorage, setGuardarStorage] = useState([])
 
+    // Esta funcion toma los datos del formulario y guarda en storage los datos del input, ademas contempla
+    //las siguiente validacion: Existencia de la ciudad y pais, y verificaion de existencia de datos duplucados
     const handleSubmit = async (values) => {
-
         pais = values.pais;
         ciudad = values.ciudad;
         const appId = 'f3e0019459448698b2d30f3b5e803701';
@@ -39,7 +40,6 @@ const Form = ({ navigation }) => {
             mostrarAlertaNoHayResultado();
 
         } else {
-
             try {
                 let datosFormulario = []
                 const value = await AsyncStorage.getItem('datosFormulario')
@@ -88,7 +88,7 @@ const Form = ({ navigation }) => {
         )
     }
 
-    //Alerta por si se ingresa una ciudad ya existente
+    //Alerta por si la ciudad ingresa no existe en la llamda a la api
     const mostrarAlertaNoHayResultado = () => {
         Alert.alert(
             'Cuidado',
@@ -132,7 +132,7 @@ const Form = ({ navigation }) => {
                                 <Picker.Item label="Emiratos Arabes" value="AE" />
                             </Picker>
                             {errors.pais && touched.pais ? (
-                                <Text>{errors.pais}</Text>
+                                <Text style={styles.errorPais}>{errors.pais}</Text>
                             ) : null}
                             <TextInput
                                 style={styles.input}
@@ -143,7 +143,7 @@ const Form = ({ navigation }) => {
                                 value={values.ciudad}
                             />
                             {errors.ciudad && touched.ciudad ? (
-                                <Text>{errors.ciudad}</Text>
+                                <Text style={styles.errorCiudad}>{errors.ciudad}</Text>
                             ) : null}
                             <TouchableOpacity
                                 style={styles.btnGuardar}
@@ -206,8 +206,8 @@ const styles = StyleSheet.create({
     },
     btnGuardar: {
         alignItems: "center",
-        backgroundColor: "#5B5A5A",
-        marginHorizontal: 80,
+        backgroundColor: "#000",
+        marginHorizontal: "20%",
         height: 30,
         borderRadius: 20,
         bottom: 30,
@@ -226,4 +226,16 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold"
     },
+    errorPais: {
+        bottom: "1%",
+        marginHorizontal: "6%",
+        color: "#000",
+        fontWeight: "bold",
+    },
+    errorCiudad: {
+        bottom: "11%",
+        left: "6%",
+        color: "#000",
+        fontWeight: "bold",
+    }
 });

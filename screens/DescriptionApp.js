@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, StatusBar, Image, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, StatusBar, Dimensions } from 'react-native'
 import AppIntroSlider from 'react-native-app-intro-slider'
 import slides from '../slides'
 import MainTab from '../navigation/MainTab'
 import LottieView from 'lottie-react-native'
 import Container from '../components/Container'
 
+//DescriptionApp corresponde al inicio donde de detalla la utilizacion de la app, 
+//utilizando el paquete App intro slider
+
 const DescriptionApp = () => {
     const size = Dimensions.get('window').width * 0.5
-
     const [showRealApp, setShowRealApp] = useState(false)
 
     const onDone = () => {
@@ -69,7 +71,7 @@ const DescriptionApp = () => {
                         doneLabel="Empezar"
                         nextLabel="Siguente"
                         skipLabel="Omitir"
-                        prevLabel="Atras"
+                        prevLabel="Atrás"
                         activeDotStyle={{
                             width: 20,
                             backgroundColor: "#EDF2F4"

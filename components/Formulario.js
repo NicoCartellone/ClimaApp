@@ -2,19 +2,20 @@ import React, { useState } from "react";
 import { StyleSheet, TextInput, View, TouchableWithoutFeedback, Text, Animated, Alert } from "react-native"
 import { Picker } from '@react-native-picker/picker';
 
+//Coponente del formulario que hace la busqueda de ciudades en particular y que no se guardan en storage
 const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation }) => {
 
     const { pais, ciudad } = busqueda;
 
     const [animacionboton] = useState(new Animated.Value(1));
-
+    //validacion al ingresar datos en el formulario
     const consultarClima = () => {
         if (pais.trim() === '' || ciudad.trim() === '') {
             mostrarAlerta();
             return;
         }
 
-        // consultar la api
+        // cambia el estado para consultar la api
         guardarConsultar(true)
     }
 
@@ -47,46 +48,46 @@ const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation })
 
     return (
         <>
+
             <View>
-                <View>
-                    <Picker
-                        style={styles.picker}
-                        selectedValue={pais}
-                        onValueChange={pais => guardarBusqueda({ ...busqueda, pais })}
-                        mode={"dialog"}
-                    >
-                        <Picker.Item label="Seleccione un país" value="" />
-                        <Picker.Item label="Argentina" value="AR" />
-                        <Picker.Item label="Brasil" value="BR" />
-                        <Picker.Item label="Colombia" value="CO" />
-                        <Picker.Item label="Chile" value="CL" />
-                        <Picker.Item label="España" value="ES" />
-                        <Picker.Item label="Francia" value="FR" />
-                        <Picker.Item label="Alemania" value="DE" />
-                        <Picker.Item label="Rusia" value="RU" />
-                        <Picker.Item label="Italia" value="IT" />
-                        <Picker.Item label="Emiratos Arabes" value="AE" />
-                    </Picker>
-                </View>
-                <View>
-                    <TextInput
-                        value={ciudad}
-                        style={styles.input}
-                        onChangeText={ciudad => guardarBusqueda({ ...busqueda, ciudad })}
-                        placeholder="Escriba una ciudad"
-                        placeholderTextColor="#666"
-                    />
-                </View>
-                <TouchableWithoutFeedback
-                    onPressIn={() => animacionEntrada()}
-                    onPressOut={() => animacionSalida()}
-                    onPress={() => consultarClima()}
+                <Picker
+                    style={styles.picker}
+                    selectedValue={pais}
+                    onValueChange={pais => guardarBusqueda({ ...busqueda, pais })}
+                    mode={"dialog"}
                 >
-                    <Animated.View style={[styles.btnBuscar, estiloAnimacion]}>
-                        <Text style={styles.textoBuscar}>Buscar clima</Text>
-                    </Animated.View>
-                </TouchableWithoutFeedback>
+                    <Picker.Item label="Seleccione un país" value="" />
+                    <Picker.Item label="Argentina" value="AR" />
+                    <Picker.Item label="Brasil" value="BR" />
+                    <Picker.Item label="Colombia" value="CO" />
+                    <Picker.Item label="Chile" value="CL" />
+                    <Picker.Item label="España" value="ES" />
+                    <Picker.Item label="Francia" value="FR" />
+                    <Picker.Item label="Alemania" value="DE" />
+                    <Picker.Item label="Rusia" value="RU" />
+                    <Picker.Item label="Italia" value="IT" />
+                    <Picker.Item label="Emiratos Arabes" value="AE" />
+                </Picker>
             </View>
+            <View>
+                <TextInput
+                    value={ciudad}
+                    style={styles.input}
+                    onChangeText={ciudad => guardarBusqueda({ ...busqueda, ciudad })}
+                    placeholder="Escriba una ciudad"
+                    placeholderTextColor="#666"
+                />
+            </View>
+            <TouchableWithoutFeedback
+                onPressIn={() => animacionEntrada()}
+                onPressOut={() => animacionSalida()}
+                onPress={() => consultarClima()}
+            >
+                <Animated.View style={[styles.btnBuscar, estiloAnimacion]}>
+                    <Text style={styles.textoBuscar}>Buscar clima</Text>
+                </Animated.View>
+            </TouchableWithoutFeedback>
+
         </>
     )
 }

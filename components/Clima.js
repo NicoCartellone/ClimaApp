@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native"
 
-
+//Este componente renderiza los datos relacionados a la temperatura mediate la llamada a la api
 const Clima = ({ resultado }) => {
     const { name, main } = resultado;
 
     if (!name) return null;
 
-    //kelvin grados
+    //kelvin a grados
     const kelvin = 273.15;
 
     return (

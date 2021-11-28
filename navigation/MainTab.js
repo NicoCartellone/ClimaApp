@@ -5,6 +5,8 @@ import About from '../screens/About'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Search from '../screens/Search'
 
+////Esta pantalla corresponde a las Tab navigation
+
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTab = ({ navigate }) => {

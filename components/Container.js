@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, SafeAreaView } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
-
+//Componente que renderiza un fondo gradiente
 const Container = ({ children }) => {
     return (
         <LinearGradient

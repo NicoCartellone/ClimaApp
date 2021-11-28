@@ -3,9 +3,17 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal, Dimensions, Image } fr
 import MapView, { Marker } from 'react-native-maps';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Container from '../components/Container';
+import LottieView from 'lottie-react-native'
 
+//Details: esta screen muestra los detalles de la ciudad elegida por el usuario
+//se muetra temperatura, sensacion termina, presion, humedad, temp minima y maxima y ademas incluye
+//un modal para mostrar un mapa
 
 const Details = ({ navigation, route }) => {
+    //se declaran las variables y los estados
+
+    const size = Dimensions.get('window').width * 0.5
+
     const ciudad = route.params.ciudad
     const pais = route.params.pais
 
@@ -19,6 +27,12 @@ const Details = ({ navigation, route }) => {
     const [icon, setIcon] = useState('')
     const [feelslike, setfeelslike] = useState('')
     const fellsActual = parseInt(feelslike - kelvin)
+    const [tempMax, setTempMax] = useState('')
+    const [tempMin, setTempMin] = useState('')
+    const [presion, setPresion] = useState('')
+    const [humedad, setHumedad] = useState('')
+
+    //useEffect para llamar a la api
 
     useEffect(() => {
         const consultaApi = async () => {
@@ -33,6 +47,11 @@ const Details = ({ navigation, route }) => {
                 setTemperatura(resultado.main.temp)
                 setIcon(resultado.weather[0].icon)
                 setfeelslike(resultado.main.feels_like)
+                setTempMax(resultado.main.temp_max)
+                setTempMin(resultado.main.temp_min)
+                setPresion(resultado.main.pressure)
+                setHumedad(resultado.main.humidity)
+
             } catch (error) {
 
             }
@@ -53,18 +72,41 @@ const Details = ({ navigation, route }) => {
                 <View style={styles.containerTemp}>
                     <Text style={styles.tempActual}> {tempActual} &#x2103;</Text>
                     <Image
-                        style={{ width: 66, height: 58 }}
+                        style={{ width: 66, height: 58, top: "8%", left: "20%" }}
                         source={{ uri: `http://openweathermap.org/img/w/${icon}.png` }}
                     />
                 </View>
-                <Text style={styles.fellsActual}>{fellsActual} &#x2103;</Text>
-                <TouchableOpacity
-                    style={styles.btn}
-                    onPress={() => { setView(true) }}
-                >
-                    <Text style={styles.btnText}>Abrir Mapa</Text>
-                </TouchableOpacity>
-
+                <View style={styles.FellsLike}>
+                    <Text style={{ marginRight: "1%", color: "white", fontWeight: "bold", fontSize: 20 }}>
+                        ST:
+                    </Text>
+                    <Text style={styles.fellsActual}>{fellsActual} &#x2103;</Text>
+                </View>
+                <View style={styles.minMax}>
+                    <Text style={styles.textMinMax}>Min {parseInt(tempMin - kelvin)}&#x2103;</Text>
+                    <Text style={styles.textMinMax}>Max {parseInt(tempMax - kelvin)}&#x2103;</Text>
+                </View>
+                <View style={styles.PresHum}>
+                    <Text style={styles.textPresHum}>Presión: {presion} hPa</Text>
+                    <Text style={styles.textPresHum}>Humedad: {humedad} %</Text>
+                </View>
+                <View>
+                    <LottieView
+                        style={{ width: size + 50, height: size + 50, marginTop: "5%" }}
+                        autoPlay
+                        loop
+                        resizeMode="contain"
+                        source={require('../assets/mapaicon.json')}
+                    />
+                    <View style={{ bottom: 30 }}>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => { setView(true) }}
+                        >
+                            <Text style={styles.btnText}>Abrir Mapa</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 <Modal
                     animationType="fade"
                     onDismiss={() => console.log(`close`)}
@@ -109,13 +151,15 @@ export default Details
 
 const styles = StyleSheet.create({
     contain: {
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: "10%"
     },
     btn: {
-        // flexDirection: "row",
-        // alignItems: "center",
-        // justifyContent: "center"
-
+        marginBottom: "5%",
+        backgroundColor: "#000",
+        padding: 10,
+        justifyContent: "center",
+        borderRadius: 15,
     },
     btnVolver: {
         display: "flex",
@@ -125,7 +169,9 @@ const styles = StyleSheet.create({
     },
     btnText: {
         color: "white",
-        fontSize: 18
+        fontSize: 18,
+        alignItems: "center",
+        left: "33%"
     },
     map: {
         width: Dimensions.get('window').width,
@@ -143,7 +189,9 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     fellsActual: {
-
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 20
     },
     ciudad: {
         color: "white",
@@ -153,12 +201,34 @@ const styles = StyleSheet.create({
     },
     tempActual: {
         color: "white",
-        fontSize: 40,
+        fontSize: 80,
         fontWeight: "bold"
     },
     containerTemp: {
         flexDirection: "row",
-
-
+    },
+    FellsLike: {
+        flexDirection: "row",
+    },
+    minMax: {
+        flexDirection: "row",
+        marginTop: "2%"
+    },
+    textMinMax: {
+        fontWeight: "bold",
+        color: "white",
+        marginRight: "4%",
+        marginLeft: "11%",
+        fontSize: 20
+    },
+    PresHum: {
+        flexDirection: "row",
+        marginHorizontal: "2%"
+    },
+    textPresHum: {
+        fontWeight: "bold",
+        color: "white",
+        marginHorizontal: "8%",
+        fontSize: 20
     }
 })

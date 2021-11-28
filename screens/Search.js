@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text } from 'react-native'
+import { StyleSheet, View, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import Formulario from '../components/Formulario';
 import Clima from '../components/Clima';
 
 
-const Search = ({ navigation }) => {
+//Esta pantalla corresponde a la busqueda de ciudades en particular que no van a quedar almacenadas
+const Search = () => {
     const [busqueda, guardarBusqueda] = useState({
         ciudad: "",
         pais: "",
@@ -14,6 +15,7 @@ const Search = ({ navigation }) => {
     const [bgcolor, guardarBgcolor] = useState('#51608F');
     const { ciudad, pais } = busqueda;
 
+    //effect con llamado a la api mostrar datos y cambiar el color de la pantalla segun la temperatura obtenida
     useEffect(() => {
         const consultarClima = async () => {
             if (consultar) {
@@ -65,22 +67,21 @@ const Search = ({ navigation }) => {
         backgroundColor: bgcolor
     }
     return (
-        <>
-            <TouchableWithoutFeedback onPress={() => ocultarTecaldo()}>
-                <View style={[styles.app, bgColorApp]}>
-                    <View style={styles.contenido}>
-                        <Clima
-                            resultado={resultado}
-                        />
-                        <Formulario
-                            busqueda={busqueda}
-                            guardarBusqueda={guardarBusqueda}
-                            guardarConsultar={guardarConsultar}
-                        />
-                    </View>
+
+        <TouchableWithoutFeedback onPress={() => ocultarTecaldo()}>
+            <View style={[styles.app, bgColorApp]}>
+                <View style={styles.contenido}>
+                    <Clima
+                        resultado={resultado}
+                    />
+                    <Formulario
+                        busqueda={busqueda}
+                        guardarBusqueda={guardarBusqueda}
+                        guardarConsultar={guardarConsultar}
+                    />
                 </View>
-            </TouchableWithoutFeedback>
-        </>
+            </View>
+        </TouchableWithoutFeedback>
     );
 }
 

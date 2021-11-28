@@ -4,6 +4,8 @@ import LottieView from 'lottie-react-native'
 import SplashScreen from '../assets/screensplash.json'
 import Container from '../components/Container';
 
+//Esta screen corresponde a la animacion inicial
+
 const size = Dimensions.get('window').width * 0.5
 
 const ScreenSplash = ({ navigation }) => {
@@ -44,7 +46,7 @@ export default ScreenSplash
 const styles = StyleSheet.create({
     contain: {
         alignItems: "center",
-        marginBottom: "50%"
+        marginBottom: "10%"
     },
     texto: {
         color: "white",

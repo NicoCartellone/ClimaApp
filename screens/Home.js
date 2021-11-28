@@ -6,18 +6,20 @@ import Container from '../components/Container';
 
 const Home = ({ navigation, route }) => {
     const contador = route.params
-    console.log('contador', contador)
 
+    //datosStorage contiene el array con los datos que se guardaron en el storage
+    //filterDatosStorage contiene los datos de storage duplicados para filtralos en una funcion
+    //search captura el input de la barra de busqueda
     const [datosStorage, setdatosStorage] = useState([])
     const [filterDatosStorage, setFilterDatosStorage] = useState([])
     const [search, setSearch] = useState('')
-    //const [datosFiltrados, setDatosFiltrados] = useState([])
 
 
     useEffect(() => {
         getData()
     }, [contador])
 
+    //se obtiene la data del storage
     const getData = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('datosFormulario')
@@ -36,7 +38,7 @@ const Home = ({ navigation, route }) => {
         const json_value = JSON.stringify(ciudadesFiltradas)
         await AsyncStorage.setItem('datosFormulario', json_value)
     }
-
+    //funcion utilizada en el buscador para filtrar y mostar resultados
     const searchFilter = (text) => {
         if (text) {
             const newData = datosStorage.filter((item) => {
@@ -72,10 +74,7 @@ const Home = ({ navigation, route }) => {
                         onChangeText={(text) => searchFilter(text)}
 
                     />
-                    <TouchableOpacity
-                        style={styles.btnBuscar}>
-                        <MaterialCommunityIcons name="magnify" color={"black"} size={26}></MaterialCommunityIcons>
-                    </TouchableOpacity>
+                    <MaterialCommunityIcons style={styles.btnBuscar} name="magnify" color={"#666"} size={26}></MaterialCommunityIcons>
                 </View>
             </View>
             <View style={styles.contain}>
@@ -117,7 +116,7 @@ export default Home
 
 const styles = StyleSheet.create({
     contain: {
-        height: "86%",
+        height: "80%",
         marginBottom: 50,
         //marginLeft: 20
     },
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginHorizontal: 15,
-        height: 30,
+        height: 40,
         borderRadius: 10,
         alignItems: "center",
         shadowColor: "#000",
@@ -146,7 +145,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     buscadorContainer: {
-        marginBottom: 15
+        marginBottom: "8%"
     },
     buscador: {
         height: 30,
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
         zIndex: 100
     },
     containerBtnInput: {
-        top: 5,
+        top: "3%",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
@@ -186,7 +185,7 @@ const styles = StyleSheet.create({
     },
     containerBtns: {
         flexDirection: "row",
-        marginHorizontal: 40
+        marginRight: "7%"
     },
     btnAgregarCiudad: {
         position: "absolute",
