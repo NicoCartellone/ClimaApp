@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, View, TouchableWithoutFeedback, Text, Animated, Alert, TouchableOpacity } from "react-native"
+import { StyleSheet, TextInput, View, TouchableWithoutFeedback, Text, Animated, Alert } from "react-native"
 import { Picker } from '@react-native-picker/picker';
 
 const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation }) => {
@@ -49,15 +49,6 @@ const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation })
         <>
             <View>
                 <View>
-                    <TextInput
-                        value={ciudad}
-                        style={styles.input}
-                        onChangeText={ciudad => guardarBusqueda({ ...busqueda, ciudad })}
-                        placeholder="Escriba una ciudad"
-                        placeholderTextColor="#666"
-                    />
-                </View>
-                <View>
                     <Picker
                         style={styles.picker}
                         selectedValue={pais}
@@ -77,6 +68,15 @@ const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation })
                         <Picker.Item label="Emiratos Arabes" value="AE" />
                     </Picker>
                 </View>
+                <View>
+                    <TextInput
+                        value={ciudad}
+                        style={styles.input}
+                        onChangeText={ciudad => guardarBusqueda({ ...busqueda, ciudad })}
+                        placeholder="Escriba una ciudad"
+                        placeholderTextColor="#666"
+                    />
+                </View>
                 <TouchableWithoutFeedback
                     onPressIn={() => animacionEntrada()}
                     onPressOut={() => animacionSalida()}
@@ -93,14 +93,13 @@ const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation })
 
 const styles = StyleSheet.create({
     input: {
-        padding: 10,
         height: 50,
         backgroundColor: "#fff",
         fontSize: 15,
-        marginBottom: 10,
-        bottom: 30,
+        marginTop: 50,
         textAlign: "center",
-        borderRadius: 15
+        borderRadius: 15,
+        borderColor: "gray"
     },
     btnBuscar: {
         marginTop: 50,

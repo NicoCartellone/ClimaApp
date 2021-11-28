@@ -9,8 +9,10 @@ const Home = ({ navigation, route }) => {
     console.log('contador', contador)
 
     const [datosStorage, setdatosStorage] = useState([])
-    const [datosFiltrados, setDatosFiltrados] = useState([])
-    console.log(`datosFlitrados`, datosFiltrados)
+    const [filterDatosStorage, setFilterDatosStorage] = useState([])
+    const [search, setSearch] = useState('')
+    //const [datosFiltrados, setDatosFiltrados] = useState([])
+
 
     useEffect(() => {
         getData()
@@ -20,7 +22,7 @@ const Home = ({ navigation, route }) => {
         try {
             const jsonValue = await AsyncStorage.getItem('datosFormulario')
             setdatosStorage(JSON.parse(jsonValue))
-            console.log('Esto se ejecuta')
+            setFilterDatosStorage(JSON.parse(jsonValue))
 
         } catch (error) {
             console.log(error)
@@ -29,26 +31,27 @@ const Home = ({ navigation, route }) => {
 
     //Elimina las ciudades del state
     const eliminarCiudad = async (id) => {
-        const ciudadesFiltradas = datosStorage.filter(datosStorage => datosStorage.id !== id);
-        setdatosStorage(ciudadesFiltradas);
+        const ciudadesFiltradas = filterDatosStorage.filter(filterDatosStorage => filterDatosStorage.id !== id);
+        setFilterDatosStorage(ciudadesFiltradas);
         const json_value = JSON.stringify(ciudadesFiltradas)
         await AsyncStorage.setItem('datosFormulario', json_value)
     }
 
-    const filtrarBusqueda = (texto) => {
-        console.log(`texto`, texto)
-        const textoInput = texto.toUpperCase()
-        for (let ciudades of datosStorage) {
-            let ciudad = ciudades.ciudad.toUpperCase();
-            if (ciudad.indexOf(textoInput) !== -1) {
-                setDatosFiltrados(ciudades)
-            }
+    const searchFilter = (text) => {
+        if (text) {
+            const newData = datosStorage.filter((item) => {
+                const itemData = item.ciudad ? item.ciudad.toUpperCase() : ''.toUpperCase()
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setFilterDatosStorage(newData);
+            setSearch(text);
+        } else {
+            setFilterDatosStorage(datosStorage);
+            setSearch(text);
         }
-        // const busquedaFiltrada = datosStorage.filter(datosStorage => datosStorage.ciudad === texto)
-        // setDatosFiltrados(busquedaFiltrada)
     }
 
-    let texto = 'inicializacion'
     return (
         <Container>
             <StatusBar
@@ -56,14 +59,17 @@ const Home = ({ navigation, route }) => {
                 backgroundColor="#192f6a"
                 barStyle="light-content"
             />
+
             <View style={styles.buscadorContainer}>
                 <View style={styles.containerBtnInput}>
                     <TextInput
                         style={styles.buscador}
+                        value={search}
                         placeholder="Busque una ciudad"
                         placeholderTextColor="#666"
+                        underlineColorAndroid="transparent"
                         textAlign="center"
-                        onChangeText={(texto) => filtrarBusqueda(texto)}
+                        onChangeText={(text) => searchFilter(text)}
 
                     />
                     <TouchableOpacity
@@ -72,36 +78,37 @@ const Home = ({ navigation, route }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <FlatList
-                data={datosStorage}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => (
-                    <View style={styles.flatListContainer}>
-                        <View style={styles.containerText}>
-                            <Text style={styles.textFlatList}>{item.ciudad}</Text>
-                        </View>
-                        <View style={styles.containerBtns}>
-                            <TouchableOpacity
-                                style={styles.btnBuscador}
-                                onPress={() => eliminarCiudad(item.id)}>
-                                <MaterialCommunityIcons name="delete" color={"red"} size={20}></MaterialCommunityIcons>
+            <View style={styles.contain}>
+                <FlatList
+                    data={filterDatosStorage}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => (
+                        <View style={styles.flatListContainer}>
+                            <View style={styles.containerText}>
+                                <Text style={styles.textFlatList}>{item.ciudad}</Text>
+                            </View>
+                            <View style={styles.containerBtns}>
+                                <TouchableOpacity
+                                    style={styles.btnBuscador}
+                                    onPress={() => eliminarCiudad(item.id)}>
+                                    <MaterialCommunityIcons name="delete" color={"red"} size={20}></MaterialCommunityIcons>
 
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.btnBuscador}
-                                onPress={() => navigation.navigate('Details', item)}>
-                                <MaterialCommunityIcons name="plus-box-multiple" color={"#5B5A5A"} size={20}></MaterialCommunityIcons>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.btnBuscador}
+                                    onPress={() => navigation.navigate('Details', item)}>
+                                    <MaterialCommunityIcons name="plus-box-multiple" color={"#5B5A5A"} size={20}></MaterialCommunityIcons>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                )}
-            />
-            <Text style={{ bottom: 150 }}>{datosFiltrados}</Text>
-            <TouchableOpacity
-                style={styles.btnAgregarCiudad}
-                onPress={() => navigation.navigate('Form')}>
-                <MaterialCommunityIcons name="plus" color={"#51608F"} size={26}></MaterialCommunityIcons>
-            </TouchableOpacity>
+                    )}
+                />
+                <TouchableOpacity
+                    style={styles.btnAgregarCiudad}
+                    onPress={() => navigation.navigate('Form')}>
+                    <MaterialCommunityIcons name="plus" color={"#51608F"} size={26}></MaterialCommunityIcons>
+                </TouchableOpacity>
+            </View>
         </Container>
     )
 }
@@ -109,21 +116,20 @@ const Home = ({ navigation, route }) => {
 export default Home
 
 const styles = StyleSheet.create({
-    gradient: {
-        flex: 1,
-        alignItems: "center",
-    },
-    container: {
-        flex: 1,
-        backgroundColor: "#51608F"
+    contain: {
+        height: "86%",
+        marginBottom: 50,
+        //marginLeft: 20
     },
     textFlatList: {
         marginRight: 10,
-        textTransform: "lowercase"
+        textTransform: "uppercase",
+        fontSize: 13,
+        fontWeight: "bold"
     },
     flatListContainer: {
         backgroundColor: "#EDF2F4",
-        marginTop: 30,
+        marginTop: 25,
         flexDirection: "row",
         justifyContent: "space-between",
         marginHorizontal: 15,
@@ -137,14 +143,13 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.34,
         shadowRadius: 6.27,
-
         elevation: 10,
     },
     buscadorContainer: {
-        marginTop: 40,
+        marginBottom: 15
     },
     buscador: {
-        height: 40,
+        height: 30,
         width: 300,
         left: 7,
         backgroundColor: "#ffff",
@@ -158,6 +163,7 @@ const styles = StyleSheet.create({
         zIndex: 100
     },
     containerBtnInput: {
+        top: 5,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
@@ -187,7 +193,7 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        bottom: 70,
+        bottom: 20,
         right: 15,
         backgroundColor: "#EDF2F4",
         borderRadius: 100,
